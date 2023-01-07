@@ -5,9 +5,12 @@ using UnityEngine;
 [RequireComponent (typeof(RotateToMouse))]
 [RequireComponent (typeof(Movement))]
 public class PlayerController : MonoBehaviour {
+    [SerializeField] private GameObject characterRootMotion;
+
     private RotateToMouse rotateToMouse;
     private PlayerAnimatorController playerAnimatorController;
     private Movement movement;
+    private PlayerTilt playerTilt;
     private float mouseX;
     private float mouseY;
     private float horizontal;
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour {
 
         this.rotateToMouse = gameObject.GetComponent<RotateToMouse>();
         this.movement = gameObject.GetComponent<Movement>();
+        this.playerTilt = gameObject.GetComponent<PlayerTilt>();
         this.playerAnimatorController = gameObject.GetComponent<PlayerAnimatorController>();
     }
 
@@ -58,6 +62,8 @@ public class PlayerController : MonoBehaviour {
         this.playerAnimatorController.MovementAnimation(this.horizontal, this.vertical, this.isRun);
         this.movement.UpdateMovement(this.horizontal, this.vertical);
     }
+
+    // TODO: 플레이어 좌/우 기울이기
 
 
 }
