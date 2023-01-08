@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent (typeof(RotateToMouse))]
 [RequireComponent (typeof(Movement))]
 public class PlayerController : MonoBehaviour {
+    public static PlayerController instance;
     [SerializeField] private float moveSpeed;           // 플레이어 이동 속도
     [SerializeField] private float rotateSpeedX = 5;    // 카메라 X축 회전 감도 (위/아래)
     [SerializeField] private float rotateSpeedY = 5;    // 카메라 Y축 회전 감도 (좌/우)
@@ -18,10 +19,14 @@ public class PlayerController : MonoBehaviour {
     private float horizontal;
     private float vertical;
     private float run;
-    private bool isRun;
+    [HideInInspector] public bool isRun;
 
 
     private void Init() {
+        if (instance == null) {
+            instance = this;
+        }
+
         Cursor.visible = false;     // 마우스 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -68,4 +73,5 @@ public class PlayerController : MonoBehaviour {
     }
 
     // TODO: 플레이어 좌/우 기울이기
+
 }

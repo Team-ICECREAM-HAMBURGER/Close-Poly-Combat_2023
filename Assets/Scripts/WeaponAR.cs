@@ -4,16 +4,64 @@ using UnityEngine;
 
 public class WeaponAR : MonoBehaviour {
     [SerializeField] private WeaponSetting weaponSetting;
+    private float lastAttackTime;
+    private bool isReload;
+    private Animator animator;
 
 
     private void Init() {
         this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
         this.weaponSetting.currentMagazine = this.weaponSetting.maxMagazine;
-        this.weaponSetting.isAuto = true;
+        this.lastAttackTime = 0;
         this.weaponSetting.weaponType = WeaponType.AR;
+        this.animator = gameObject.GetComponent<Animator>();
     }
 
     private void Awake() {
         Init();
+    }
+
+    private void Update() {
+        UpdateFire();
+    }
+
+    private void UpdateFire() {
+        if (Input.GetMouseButton(0)) {
+            if (this.isReload) {    // 재장전 중에는 사격 불가
+                return;
+            }
+            
+            if (this.weaponSetting.isAuto) {    // 조정간 자동
+                OnFire();
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0)) {
+            if (this.isReload) {    // 재장전 중에는 사격 불가
+                return;
+            }
+
+            if (this.weaponSetting.isSemi) {    // 조정간 반자동
+                OnFire();
+            }
+        }
+    }
+
+    private void OnFire() {
+        if (Time.time - this.lastAttackTime > this.weaponSetting.attackRate) {
+            if (PlayerController.instance.isRun) {  // 달리기 도중에는 사격 불가
+                return;
+            }
+            
+            if (this.weaponSetting.currentAmmo <= 0) {  // 탄약이 고갈되면 사격 불가
+                return;
+            }
+
+            this.lastAttackTime = Time.time;
+            this.weaponSetting.currentAmmo -= 1;
+            // onAmmoEvent.Invoke() 
+            PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);
+            //this.animator.Play("Fire", 1, 0);
+        }
     }
 }

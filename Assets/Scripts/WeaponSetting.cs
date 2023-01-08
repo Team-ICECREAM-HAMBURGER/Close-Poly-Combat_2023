@@ -18,5 +18,6 @@ public struct WeaponSetting {
     public int maxAmmo;          // 최대 탄약
     public int currentMagazine;  // 현재 탄창
     public int maxMagazine;      //최대 탄창
+    public float attackRate;     // RPM
     public WeaponType weaponType;
 }

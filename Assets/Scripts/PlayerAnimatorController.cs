@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimatorController : MonoBehaviour {
-    private Animator animator;
+    public static PlayerAnimatorController instance;
+    [HideInInspector] public Animator animator;
     public float MoveSpeed {
         set => this.animator.SetFloat("Move Speed", value, 0.05f, Time.deltaTime);
         get => this.animator.GetFloat("Move Speed");
@@ -11,6 +12,10 @@ public class PlayerAnimatorController : MonoBehaviour {
 
 
     private void Init() {
+        if (instance == null) {
+            instance = this;
+        }
+        
         this.animator = gameObject.GetComponent<Animator>();
     }
 
