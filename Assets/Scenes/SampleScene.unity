@@ -8466,7 +8466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f871776a5d482a749bdf408ead8fbb84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterRootMotion: {fileID: 4141504120500293683}
+  moveSpeed: 0
 --- !u!114 &5589111982339302960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8496,7 +8496,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 1978819712}
   characterController: {fileID: 2403572040564335850}
-  moveSpeed: 3
 --- !u!114 &5589111982339302962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12535,7 +12534,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0

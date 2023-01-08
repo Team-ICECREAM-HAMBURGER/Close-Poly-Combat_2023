@@ -5,7 +5,9 @@ using UnityEngine;
 [RequireComponent (typeof(RotateToMouse))]
 [RequireComponent (typeof(Movement))]
 public class PlayerController : MonoBehaviour {
-    [SerializeField] private GameObject characterRootMotion;
+    [SerializeField] private float moveSpeed;           // 플레이어 이동 속도
+    [SerializeField] private float rotateSpeedX = 5;    // 카메라 X축 회전 감도 (위/아래)
+    [SerializeField] private float rotateSpeedY = 5;    // 카메라 Y축 회전 감도 (좌/우)
 
     private RotateToMouse rotateToMouse;
     private PlayerAnimatorController playerAnimatorController;
@@ -43,24 +45,26 @@ public class PlayerController : MonoBehaviour {
         this.mouseX = Input.GetAxis("Mouse X");
         this.mouseY = Input.GetAxis("Mouse Y");
 
-        this.rotateToMouse.UpdateRotate(this.mouseX, this.mouseY);  // 마우스로 시점 조작
+        this.rotateToMouse.UpdateRotate(this.mouseX, this.mouseY, this.rotateSpeedX, this.rotateSpeedY);  // 마우스로 시점 조작
     }
 
     // 플레이어 이동
     private void UpdateMovement() {
         this.horizontal = Input.GetAxisRaw("Horizontal");
         this.vertical = Input.GetAxisRaw("Vertical");
-        this.run = Input.GetAxisRaw("Run");
+        this.run = Input.GetAxisRaw("Run"); // Left Shift 키 입력
 
-        if (this.run > 0) { // 달리기 상태일 경우,
+        if (this.run > 0 && this.vertical == 1) { // 달리기 상태일 경우,
             this.isRun = true;
+            this.moveSpeed = 5;
         }
         else {
             this.isRun = false;
+            this.moveSpeed = 3;
         }
 
         this.playerAnimatorController.MovementAnimation(this.horizontal, this.vertical, this.isRun);
-        this.movement.UpdateMovement(this.horizontal, this.vertical);
+        this.movement.UpdateMovement(this.horizontal, this.vertical, this.moveSpeed);
     }
 
     // TODO: 플레이어 좌/우 기울이기
