@@ -31,5 +31,4 @@ public class PlayerAnimatorController : MonoBehaviour {
             this.MoveSpeed = 0;
         }
     }
-
 }

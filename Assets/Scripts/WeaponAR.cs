@@ -23,27 +23,33 @@ public class WeaponAR : MonoBehaviour {
 
     private void Update() {
         UpdateFire();
+        UpdateReload();
     }
 
     private void UpdateFire() {
-        if (Input.GetMouseButton(0)) {
+        if (this.weaponSetting.isAuto) {
             if (this.isReload) {    // 재장전 중에는 사격 불가
                 return;
             }
             
-            if (this.weaponSetting.isAuto) {    // 조정간 자동
+            if (Input.GetMouseButton(0)) {    // 조정간 자동
                 OnFire();
             }
         }
-
-        if (Input.GetMouseButtonDown(0)) {
+        else if (this.weaponSetting.isSemi) {
             if (this.isReload) {    // 재장전 중에는 사격 불가
                 return;
             }
 
-            if (this.weaponSetting.isSemi) {    // 조정간 반자동
+            if (Input.GetMouseButton(0)) {    // 조정간 반자동
                 OnFire();
             }
+        }
+    }
+
+    private void UpdateReload() {
+        if (Input.GetKeyDown(KeyCode.R)) {
+            OnReload();
         }
     }
 
@@ -60,8 +66,13 @@ public class WeaponAR : MonoBehaviour {
             this.lastAttackTime = Time.time;
             this.weaponSetting.currentAmmo -= 1;
             // onAmmoEvent.Invoke() 
-            PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);
-            //this.animator.Play("Fire", 1, 0);
+
+            PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);  // Animation(Fire) Play
         }
+    }
+
+    private void OnReload() {
+        PlayerAnimatorController.instance.animator.SetTrigger("Reloading");   // Animation(Reload) Play
+        this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
     }
 }
