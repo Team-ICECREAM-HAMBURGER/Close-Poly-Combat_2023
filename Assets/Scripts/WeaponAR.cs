@@ -5,9 +5,11 @@ using UnityEngine;
 public class WeaponAR : MonoBehaviour {
     [SerializeField] private WeaponSetting weaponSetting;
     [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private Transform bulletSpawnPoint;
     private float lastAttackTime;
     private bool isReload;
     private Animator animator;
+    private Camera mainCamera;
 
 
     private void Init() {
@@ -16,6 +18,7 @@ public class WeaponAR : MonoBehaviour {
         this.lastAttackTime = 0;
         this.weaponSetting.weaponType = WeaponType.AR;
         this.animator = gameObject.GetComponent<Animator>();
+        this.mainCamera = Camera.main;
     }
 
     private void Awake() {
@@ -84,6 +87,7 @@ public class WeaponAR : MonoBehaviour {
             // onAmmoEvent.Invoke()
             this.muzzleFlash.Play();
             PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);  // Animation(Fire) Play
+            TwoStepRayCast();
         }
 
         yield return null; 
@@ -102,4 +106,34 @@ public class WeaponAR : MonoBehaviour {
 
         yield return null;
     }
+
+    private void TwoStepRayCast() {
+        Ray ray;
+        RaycastHit hit;
+        Vector3 targetPoint = Vector3.zero;
+        
+        ray = this.mainCamera.ViewportPointToRay(Vector2.one * 0.5f);   // 화면 중앙 지점으로 Ray
+        
+        if (Physics.Raycast(ray, out hit, this.weaponSetting.attackDistance)) {     // 무기 사정거리만큼 Ray 발사 (화면 정중앙)
+            targetPoint = hit.point;
+        }
+        else {
+            targetPoint = ray.origin + ray.direction * this.weaponSetting.attackDistance;   // hit이 null일 경우, Ray를 무기 사정거리까지 쭉 발사
+        }
+
+        Vector3 attackDirection = (targetPoint - this.bulletSpawnPoint.position).normalized;    // (화면 정중앙 - 총구 위치).일반화
+
+        if (Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, this.weaponSetting.attackDistance)) {
+            // Hit Impact
+            Debug.Log(hit.transform.name);
+            if (hit.transform.CompareTag("Enemy")) {
+                hit.transform.GetComponent<EnemyFSM>().TakeDamage(weaponSetting.damage);
+            }
+            else if (hit.transform.CompareTag("InteractionObject")) {
+                //hit.transform.GetComponent<InteractionObject>().TakeDamage(weaponSetting.damage);
+            }
+        }
+    }
+
+
 }

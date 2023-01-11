@@ -15428,16 +15428,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSetting:
-    isAuto: 0
-    isSemi: 1
+    isAuto: 1
+    isSemi: 0
     isSingle: 0
     currentAmmo: 0
     maxAmmo: 31
     currentMagazine: 0
     maxMagazine: 5
     attackRate: 0.1
+    attackDistance: 30
+    damage: 5
     weaponType: 0
   muzzleFlash: {fileID: 4742348812543650516}
+  bulletSpawnPoint: {fileID: 352424618747818765}
 --- !u!82 &6621038141693931675
 AudioSource:
   m_ObjectHideFlags: 0
