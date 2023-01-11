@@ -16,6 +16,8 @@ TagManager:
   - Wood (Static)
   - Dirt (Static)
   - Wood
+  - Enemy
+  - InteractionObject
   layers:
   - Default
   - TransparentFX

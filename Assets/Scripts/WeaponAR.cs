@@ -10,6 +10,7 @@ public class WeaponAR : MonoBehaviour {
     private bool isReload;
     private Animator animator;
     private Camera mainCamera;
+    private ImpactMemoryPool impactMemoryPool;
 
 
     private void Init() {
@@ -19,6 +20,7 @@ public class WeaponAR : MonoBehaviour {
         this.weaponSetting.weaponType = WeaponType.AR;
         this.animator = gameObject.GetComponent<Animator>();
         this.mainCamera = Camera.main;
+        this.impactMemoryPool = gameObject.GetComponent<ImpactMemoryPool>();
     }
 
     private void Awake() {
@@ -125,13 +127,7 @@ public class WeaponAR : MonoBehaviour {
 
         if (Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, this.weaponSetting.attackDistance)) {
             // Hit Impact
-            Debug.Log(hit.transform.name);
-            if (hit.transform.CompareTag("Enemy")) {
-                hit.transform.GetComponent<EnemyFSM>().TakeDamage(weaponSetting.damage);
-            }
-            else if (hit.transform.CompareTag("InteractionObject")) {
-                //hit.transform.GetComponent<InteractionObject>().TakeDamage(weaponSetting.damage);
-            }
+            this.impactMemoryPool.SpawnImpact(hit);
         }
     }
 
