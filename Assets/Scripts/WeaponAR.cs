@@ -2,15 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+[System.Serializable]
+public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
+[System.Serializable]
+public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }
+
 public class WeaponAR : MonoBehaviour {
     [SerializeField] private WeaponSetting weaponSetting;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Transform bulletSpawnPoint;
-    private float lastAttackTime;
-    private bool isReload;
+    [SerializeField] private AudioClip[] audios;
+    private AudioSource audioSource;
     private Animator animator;
     private Camera mainCamera;
     private ImpactMemoryPool impactMemoryPool;
+    private float lastAttackTime;
+    private bool isReload;
+    private bool isAimSoundPlay;
+
+    [HideInInspector] public AmmoEvent onAmmoEvent = new AmmoEvent();
+    [HideInInspector] public MagazineEvent onMagzineEvent = new MagazineEvent();
 
 
     private void Init() {
@@ -21,6 +34,8 @@ public class WeaponAR : MonoBehaviour {
         this.animator = gameObject.GetComponent<Animator>();
         this.mainCamera = Camera.main;
         this.impactMemoryPool = gameObject.GetComponent<ImpactMemoryPool>();
+        this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.isAimSoundPlay = false;
     }
 
     private void Awake() {
@@ -134,9 +149,14 @@ public class WeaponAR : MonoBehaviour {
 
     private void UpdateAim() {
         if (Input.GetMouseButton(1)) {  // 마우스 우클릭 (유지)
+            if (!this.isAimSoundPlay) {
+                PlaySound(this.audios[0]);  // Aim In
+            }
+
             PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
         }
         else if (Input.GetMouseButtonUp(1)) {
+            this.isAimSoundPlay = false;
             PlayerAnimatorController.instance.IsAim = false;
         }
 
@@ -146,5 +166,11 @@ public class WeaponAR : MonoBehaviour {
         else if (!PlayerAnimatorController.instance.IsAim) {
             PlayerAnimatorController.instance.Aiming = 0;   // Blend Tree
         }
+    }
+
+    public void PlaySound(AudioClip clip) {
+        this.isAimSoundPlay = true;
+        this.audioSource.Stop();
+        this.audioSource.PlayOneShot(clip);        
     }
 }

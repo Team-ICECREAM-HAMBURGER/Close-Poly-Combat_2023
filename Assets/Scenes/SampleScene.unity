@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15442,6 +15442,15 @@ MonoBehaviour:
     weaponType: 0
   muzzleFlash: {fileID: 4742348812543650516}
   bulletSpawnPoint: {fileID: 352424618747818765}
+  audios:
+  - {fileID: 8300000, guid: afe80d867ef6b8c4fa45b07f1f99533c, type: 3}
+  - {fileID: 8300000, guid: 9e9480b4d07646942b555fd43f2a0f71, type: 3}
+  onAmmoEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onMagzineEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!82 &6621038141693931675
 AudioSource:
   m_ObjectHideFlags: 0
