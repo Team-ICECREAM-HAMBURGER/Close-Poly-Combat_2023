@@ -9,6 +9,26 @@ public class PlayerAnimatorController : MonoBehaviour {
         set => this.animator.SetFloat("Move Speed", value, 0.05f, Time.deltaTime);
         get => this.animator.GetFloat("Move Speed");
     }
+    public float Aiming {
+        set => this.animator.SetFloat("Aiming", value, 0.05f, Time.deltaTime);
+        get => this.animator.GetFloat("Aiming");
+    }
+    public bool IsAim {
+        set => this.animator.SetBool("Aim", value);
+        get => this.animator.GetBool("Aim");
+    }
+    public bool IsRun {
+        set => this.animator.SetBool("Run", value);
+        get => this.animator.GetBool("Run");
+    }
+    public bool IsWalk {
+        set => this.animator.SetBool("Walk", value);
+        get => this.animator.GetBool("Walk");
+    }
+    public bool IsReload {
+        set => this.animator.SetBool("Reload", value);
+        get => this.animator.GetBool("Reload");
+    }
 
 
     private void Init() {

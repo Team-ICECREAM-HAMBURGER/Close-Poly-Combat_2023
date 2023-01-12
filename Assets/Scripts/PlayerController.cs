@@ -61,11 +61,19 @@ public class PlayerController : MonoBehaviour {
 
         if (this.run > 0 && this.vertical == 1) { // 달리기 상태일 경우,
             this.isRun = true;
+            PlayerAnimatorController.instance.IsRun = true;
+            PlayerAnimatorController.instance.IsWalk = false;
             this.moveSpeed = 5;
         }
-        else {
+        else if (this.run == 0 && this.vertical > 0 || this.horizontal > 0) {  // 걷기 상태일 경우,
             this.isRun = false;
+            PlayerAnimatorController.instance.IsRun = false;
+            PlayerAnimatorController.instance.IsWalk = true;
             this.moveSpeed = 3;
+        }
+        else {
+            PlayerAnimatorController.instance.IsRun = false;
+            PlayerAnimatorController.instance.IsWalk = false;
         }
 
         this.playerAnimatorController.MovementAnimation(this.horizontal, this.vertical, this.isRun);

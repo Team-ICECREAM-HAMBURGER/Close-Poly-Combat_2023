@@ -54,7 +54,6 @@ public class MemoryPool : MonoBehaviour {
     }
 
     public GameObject ActivateObjects() {
-        Debug.Log(this.maxCount + " " + this.activeCount);
         if (this.poolItemList == null) {
             return null;
         }

@@ -29,6 +29,7 @@ public class WeaponAR : MonoBehaviour {
 
     private void Update() {
         UpdateFire();
+        UpdateAim();
         UpdateReload();
     }
 
@@ -97,12 +98,13 @@ public class WeaponAR : MonoBehaviour {
 
     private IEnumerator OnReload() {
         this.isReload = true;
-        PlayerAnimatorController.instance.animator.SetTrigger("Reloading");   // Animation(Reload) Play
+        PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
         this.animator.SetTrigger("Reloading");
             
         yield return new WaitForSeconds(3.18f);
             
         this.isReload = false;
+        PlayerAnimatorController.instance.IsReload = false;
         this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
         this.weaponSetting.currentMagazine -= 1;
 
@@ -126,10 +128,23 @@ public class WeaponAR : MonoBehaviour {
         Vector3 attackDirection = (targetPoint - this.bulletSpawnPoint.position).normalized;    // (화면 정중앙 - 총구 위치).일반화
 
         if (Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, this.weaponSetting.attackDistance)) {
-            // Hit Impact
-            this.impactMemoryPool.SpawnImpact(hit);
+            this.impactMemoryPool.SpawnImpact(hit); // Hit Impact
         }
     }
 
+    private void UpdateAim() {
+        if (Input.GetMouseButton(1)) {  // 마우스 우클릭 (유지)
+            PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
+        }
+        else if (Input.GetMouseButtonUp(1)) {
+            PlayerAnimatorController.instance.IsAim = false;
+        }
 
+        if (PlayerAnimatorController.instance.IsAim) {
+            PlayerAnimatorController.instance.Aiming = 1;   // Blend Tree
+        }
+        else if (!PlayerAnimatorController.instance.IsAim) {
+            PlayerAnimatorController.instance.Aiming = 0;   // Blend Tree
+        }
+    }
 }

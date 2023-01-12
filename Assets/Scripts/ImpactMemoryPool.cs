@@ -25,9 +25,7 @@ public class ImpactMemoryPool : MonoBehaviour {
         Init();
     }
 
-    public void SpawnImpact(RaycastHit hit) {
-        Debug.Log(hit.transform.tag + " " + hit.transform.name);
-        
+    public void SpawnImpact(RaycastHit hit) {        
         if (hit.transform.CompareTag("Concrete")) {
             this.impact = this.memoryPools[(int)ImpactType.Normal].ActivateObjects();
             this.impact.transform.position = hit.point;
