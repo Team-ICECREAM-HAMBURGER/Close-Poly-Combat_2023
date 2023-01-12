@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2893,10 +2893,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1596915035529758026}
   - component: {fileID: 5589111982339302958}
+  - component: {fileID: 5589111982339302963}
   - component: {fileID: 5589111982339302959}
   - component: {fileID: 5589111982339302960}
   - component: {fileID: 5589111982339302961}
   - component: {fileID: 5589111982339302962}
+  - component: {fileID: 5589111982339302964}
   m_Layer: 9
   m_Name: Character Root (Animator)
   m_TagString: Untagged
@@ -13252,6 +13254,9 @@ MonoBehaviour:
   moveSpeed: 3
   rotateSpeedX: 5
   rotateSpeedY: 5
+  audios:
+  - {fileID: 8300000, guid: 74abbbf1b1724e34b894191db38e10a0, type: 3}
+  - {fileID: 8300000, guid: d2add02f58e61e640aba3ae9110591cb, type: 3}
   isRun: 0
 --- !u!114 &5589111982339302960
 MonoBehaviour:
@@ -13293,6 +13298,114 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+--- !u!82 &5589111982339302963
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117449865377816560}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &5589111982339302964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117449865377816560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5122d72cbddebb44e850d7e206c1bfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5598325784986005972
 Transform:
   m_ObjectHideFlags: 0
@@ -15372,6 +15485,7 @@ GameObject:
   - component: {fileID: 6621038141693931675}
   - component: {fileID: 6621038141693931674}
   - component: {fileID: 6621038141693931676}
+  - component: {fileID: 6621038141693931677}
   m_Layer: 9
   m_Name: P_LPSP_WEP_AR_02
   m_TagString: Untagged
@@ -15562,6 +15676,18 @@ MonoBehaviour:
   impactPrefabs:
   - {fileID: 4279705340283457590, guid: 5ede5431205c1e9409e8c4293e49f6f3, type: 3}
   memoryPools: []
+--- !u!114 &6621038141693931677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621038141684564831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5122d72cbddebb44e850d7e206c1bfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6623788847530899767
 Transform:
   m_ObjectHideFlags: 0

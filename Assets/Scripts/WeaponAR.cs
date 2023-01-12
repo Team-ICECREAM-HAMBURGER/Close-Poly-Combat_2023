@@ -148,9 +148,10 @@ public class WeaponAR : MonoBehaviour {
     }
 
     private void UpdateAim() {
-        if (Input.GetMouseButton(1)) {  // 마우스 우클릭 (유지)
+        if (Input.GetMouseButton(1) && !PlayerController.instance.isRun) {  // 마우스 우클릭 (유지)
             if (!this.isAimSoundPlay) {
-                PlaySound(this.audios[0]);  // Aim In
+                this.isAimSoundPlay = true;
+                AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[0]);  // Aim In
             }
 
             PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
@@ -166,11 +167,5 @@ public class WeaponAR : MonoBehaviour {
         else if (!PlayerAnimatorController.instance.IsAim) {
             PlayerAnimatorController.instance.Aiming = 0;   // Blend Tree
         }
-    }
-
-    public void PlaySound(AudioClip clip) {
-        this.isAimSoundPlay = true;
-        this.audioSource.Stop();
-        this.audioSource.PlayOneShot(clip);        
     }
 }
