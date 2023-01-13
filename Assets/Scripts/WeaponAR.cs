@@ -105,6 +105,7 @@ public class WeaponAR : MonoBehaviour {
             // onAmmoEvent.Invoke()
             this.muzzleFlash.Play();
             PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);  // Animation(Fire) Play
+            AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[1]);
             TwoStepRayCast();
         }
 
@@ -115,6 +116,7 @@ public class WeaponAR : MonoBehaviour {
         this.isReload = true;
         PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
         this.animator.SetTrigger("Reloading");
+        AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[2]);
             
         yield return new WaitForSeconds(3.18f);
             
@@ -144,6 +146,7 @@ public class WeaponAR : MonoBehaviour {
 
         if (Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, this.weaponSetting.attackDistance)) {
             this.impactMemoryPool.SpawnImpact(hit); // Hit Impact
+            Debug.Log("Hit: " + hit.transform.name);
         }
     }
 

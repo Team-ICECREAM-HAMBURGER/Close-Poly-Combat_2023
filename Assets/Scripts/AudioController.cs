@@ -17,7 +17,6 @@ public class AudioController : MonoBehaviour {
     }
 
     public void PlaySoundOneShot(AudioSource audioSource, AudioClip clip) {
-        audioSource.Stop();
         audioSource.PlayOneShot(clip);        
     }
 
