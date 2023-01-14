@@ -28,13 +28,14 @@ public class ImpactMemoryPool : MonoBehaviour {
     public void SpawnImpact(RaycastHit hit) {        
         if (hit.transform.CompareTag("Concrete")) {
             this.impact = this.memoryPools[(int)ImpactType.Normal].ActivateObjects();
-            this.impact.transform.position = hit.point;
-            this.impact.transform.rotation = Quaternion.LookRotation(hit.normal);
-
             this.impact.GetComponent<Impact>().Setup(this.memoryPools[(int)ImpactType.Normal]);
         }
         else if (hit.transform.CompareTag("Target")) {
-
+            this.impact = this.memoryPools[(int)ImpactType.Target].ActivateObjects();
+            this.impact.GetComponent<Impact>().Setup(this.memoryPools[(int)ImpactType.Target]);
         }
+
+        this.impact.transform.position = hit.point;
+        this.impact.transform.rotation = Quaternion.LookRotation(hit.normal);
     }
 }

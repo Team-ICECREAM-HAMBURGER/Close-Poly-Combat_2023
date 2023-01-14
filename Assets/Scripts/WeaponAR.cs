@@ -146,7 +146,10 @@ public class WeaponAR : MonoBehaviour {
 
         if (Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, this.weaponSetting.attackDistance)) {
             this.impactMemoryPool.SpawnImpact(hit); // Hit Impact
-            Debug.Log("Hit: " + hit.transform.name);
+
+            if (hit.transform.CompareTag("Target")) {
+                hit.transform.gameObject.GetComponent<DestructibleObject>().TakeDamage(this.weaponSetting.damage);
+            }
         }
     }
 

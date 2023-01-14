@@ -17373,10 +17373,10 @@ MonoBehaviour:
     currentAmmo: 0
     maxAmmo: 31
     currentMagazine: 0
+    damage: 5
     maxMagazine: 5
     attackRate: 0.1
     attackDistance: 30
-    damage: 5
     weaponType: 0
   muzzleFlash: {fileID: 4742348812543650516}
   bulletSpawnPoint: {fileID: 352424618747818765}
@@ -17500,6 +17500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impactPrefabs:
   - {fileID: 4279705340283457590, guid: 5ede5431205c1e9409e8c4293e49f6f3, type: 3}
+  - {fileID: 1036925697551712, guid: 20b01138b1b8b4f21980071bbc7c7884, type: 3}
   memoryPools: []
 --- !u!114 &6621038141693931677
 MonoBehaviour:

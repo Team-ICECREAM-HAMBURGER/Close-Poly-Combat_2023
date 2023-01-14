@@ -43,9 +43,10 @@ GameObject:
   - component: {fileID: 2153672821081972492}
   - component: {fileID: 7235047837369013062}
   - component: {fileID: 7702946068301862958}
+  - component: {fileID: 1274702766419360696}
   m_Layer: 0
   m_Name: target
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,6 +133,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.00040872468, y: 0.0052598147, z: 0.017046336}
   m_Center: {x: -0.00029888426, y: -0.000000012412784, z: 0.008523144}
+--- !u!114 &1274702766419360696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489161303317778779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a50aef4fa0341c1a3558d9f8f79676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destructibleObjectPieces: {fileID: 18132035282118356, guid: 3650c1dec3e954125908ff814128ed13,
+    type: 3}
+  currentHP: 10
 --- !u!1 &5379829570100974344
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +159,7 @@ GameObject:
   - component: {fileID: 4747689907708922290}
   m_Layer: 0
   m_Name: SK_Target
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
