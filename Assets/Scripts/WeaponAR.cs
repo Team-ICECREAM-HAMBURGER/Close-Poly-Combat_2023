@@ -14,10 +14,12 @@ public class WeaponAR : MonoBehaviour {
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private AudioClip[] audios;
+    [SerializeField] private Transform casingSpawnPoint;
     private AudioSource audioSource;
     private Animator animator;
     private Camera mainCamera;
     private ImpactMemoryPool impactMemoryPool;
+    private CasingMemoryPool casingMemoryPool;
     private float lastAttackTime;
     private bool isReload;
     private bool isAimSoundPlay;
@@ -34,6 +36,7 @@ public class WeaponAR : MonoBehaviour {
         this.animator = gameObject.GetComponent<Animator>();
         this.mainCamera = Camera.main;
         this.impactMemoryPool = gameObject.GetComponent<ImpactMemoryPool>();
+        this.casingMemoryPool = gameObject.GetComponent<CasingMemoryPool>();
         this.audioSource = gameObject.GetComponent<AudioSource>();
         this.isAimSoundPlay = false;
     }
@@ -107,6 +110,7 @@ public class WeaponAR : MonoBehaviour {
             PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);  // Animation(Fire) Play
             AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[1]);
             TwoStepRayCast();
+            this.casingMemoryPool.SpawnCasing(this.casingSpawnPoint.position, this.casingSpawnPoint.right);
         }
 
         yield return null; 

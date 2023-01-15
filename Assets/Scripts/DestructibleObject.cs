@@ -13,6 +13,7 @@ public class DestructibleObject : MonoBehaviour {
 
         if (this.currentHP <= 0 && this.isDestroyed == false) {
             this.isDestroyed = true;
+            Timer.instance.TargetCount = 1;
             Instantiate(this.destructibleObjectPieces, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
             Destroy(gameObject);
         }
