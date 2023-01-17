@@ -12,6 +12,6 @@ public class TargetCounter : MonoBehaviour {
     }
 
     private void UpdateTargetCount() {
-        this.targetText.text = "Remaining Target: " + Timer.instance.TargetCount;
+        this.targetText.text = "Target: " + Timer.instance.TargetCount;
     }
 }
