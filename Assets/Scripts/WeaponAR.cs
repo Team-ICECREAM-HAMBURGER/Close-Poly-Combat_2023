@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using TMPro;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -15,6 +15,9 @@ public class WeaponAR : MonoBehaviour {
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private AudioClip[] audios;
     [SerializeField] private Transform casingSpawnPoint;
+    [SerializeField] private TextMeshProUGUI textAmmo;
+    [SerializeField] private GameObject magazineUIClone;
+    [SerializeField] private Transform magazineUIParent;
     private AudioSource audioSource;
     private Animator animator;
     private Camera mainCamera;
@@ -23,6 +26,7 @@ public class WeaponAR : MonoBehaviour {
     private float lastAttackTime;
     private bool isReload;
     private bool isAimSoundPlay;
+    private List<GameObject> magazineList;
 
     [HideInInspector] public AmmoEvent onAmmoEvent = new AmmoEvent();
     [HideInInspector] public MagazineEvent onMagzineEvent = new MagazineEvent();
@@ -39,6 +43,12 @@ public class WeaponAR : MonoBehaviour {
         this.casingMemoryPool = gameObject.GetComponent<CasingMemoryPool>();
         this.audioSource = gameObject.GetComponent<AudioSource>();
         this.isAimSoundPlay = false;
+        this.magazineList = new List<GameObject>();
+
+        this.onAmmoEvent.AddListener(UpdateAmmoHUD);
+        this.onMagzineEvent.AddListener(UpdateMagazineHUD);
+        
+        SetupMagazine();
     }
 
     private void Awake() {
@@ -105,7 +115,9 @@ public class WeaponAR : MonoBehaviour {
         if (Time.time - this.lastAttackTime > this.weaponSetting.attackRate) {
             this.lastAttackTime = Time.time;
             this.weaponSetting.currentAmmo -= 1;
-            // onAmmoEvent.Invoke()
+
+            this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+            
             this.muzzleFlash.Play();
             PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);  // Animation(Fire) Play
             AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[1]);
@@ -128,7 +140,9 @@ public class WeaponAR : MonoBehaviour {
         PlayerAnimatorController.instance.IsReload = false;
         this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
         this.weaponSetting.currentMagazine -= 1;
-
+        this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+        this.onMagzineEvent.Invoke(this.weaponSetting.currentMagazine);     // 탄창 수 UI Invoke
+       
         yield return null;
     }
 
@@ -176,6 +190,34 @@ public class WeaponAR : MonoBehaviour {
         }
         else if (!PlayerAnimatorController.instance.IsAim) {
             PlayerAnimatorController.instance.Aiming = 0;   // Blend Tree
+        }
+    }
+
+    private void UpdateAmmoHUD(int currentAmmo, int maxAmmo) {
+        this.textAmmo.text = $"{currentAmmo}/{maxAmmo}";
+    }
+
+    private void UpdateMagazineHUD(int currentMagazine) {
+        for (int i = 0; i < this.magazineList.Count; ++i) { // 다 끄기
+            this.magazineList[i].SetActive(false);
+        }
+
+        for (int i = 0; i < currentMagazine; ++i) { // 현재 탄창 수만큼 켜기 (Update)
+            this.magazineList[i].SetActive(true);
+        }
+    }
+
+    private void SetupMagazine() {
+        for (int i = 0; i < this.weaponSetting.maxMagazine; ++i) {  // 탄창 UI 아이콘 프리팹 생성
+            GameObject clone = Instantiate(this.magazineUIClone);
+            
+            clone.transform.SetParent(this.magazineUIParent);
+            clone.gameObject.SetActive(false);
+            this.magazineList.Add(clone);
+        }
+
+        for (int i = 0; i < this.weaponSetting.currentMagazine; ++i) {  // 아이콘 활성화 (초기화)
+            this.magazineList[i].SetActive(true);
         }
     }
 }

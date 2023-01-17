@@ -17,8 +17,8 @@ public struct WeaponSetting {
     public int currentAmmo;         // 현재 탄약
     public int maxAmmo;             // 최대 탄약
     public int currentMagazine;     // 현재 탄창
-    public int damage;            // 공격력
     public int maxMagazine;         //최대 탄창
+    public int damage;              // 공격력
     public float attackRate;        // RPM
     public float attackDistance;    // 사거리
     public WeaponType weaponType;   // 무기 종류
