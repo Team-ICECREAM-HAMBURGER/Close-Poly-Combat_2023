@@ -119,7 +119,7 @@ public class WeaponAR : MonoBehaviour {
             this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
             
             this.muzzleFlash.Play();
-            PlayerAnimatorController.instance.animator.Play("Fire", 1, 0);  // Animation(Fire) Play
+            PlayerAnimatorController.instance.animator.Play("Fire", 2, 0);  // Animation(Fire) Play
             AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[1]);
             TwoStepRayCast();
             this.casingMemoryPool.SpawnCasing(this.casingSpawnPoint.position, this.casingSpawnPoint.right);
@@ -212,7 +212,9 @@ public class WeaponAR : MonoBehaviour {
             GameObject clone = Instantiate(this.magazineUIClone);
             
             clone.transform.SetParent(this.magazineUIParent);
+            
             clone.gameObject.SetActive(false);
+
             this.magazineList.Add(clone);
         }
 
