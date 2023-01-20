@@ -16,29 +16,33 @@ public class Timer : MonoBehaviour {
             }
         }
     private string time;
-
+    private float startTime;
 
     private void Init() {
         if (instance == null) {
             instance = this;
         }
+        this.timerText.text = "00.00";
+        
     }
 
     private void Awake() {
         Init();
     }
 
-    private void Update() {
-        UpdateTimer();
+    private void OnEnable() {
+        this.startTime = Time.time;
+        StartCoroutine(OnTimer());    
     }
 
-    public void UpdateTimer() {
-        if (this.targetCount > 0) {
-            this.timerText.text = $"{Time.time:N2}";
+
+    private IEnumerator OnTimer() {
+        while(this.targetCount > 0) {
+            this.timerText.text = $"{Time.time - this.startTime:N2}";
             this.time = this.timerText.text;
+            yield return new WaitForSeconds(0.01f);
         }
-        else {
-            this.timerText.text = this.time;
-        }
+        
+        this.timerText.text = this.time;
     }
 }

@@ -15,9 +15,6 @@ public class Movement : MonoBehaviour {
         this.moveDir = (vertical * this.orientation.forward + horizontal * this.orientation.right); // 이동 방향
         this.moveForce = new Vector3(this.moveDir.x * moveSpeed, this.moveDir.y, this.moveDir.z * moveSpeed); // 이동 힘
 
-        if (!this.characterController.isGrounded) {     // 중력 적용
-            this.moveForce.y += this.gravity * Time.deltaTime;
-        }
 
         this.characterController.Move(this.moveForce * Time.deltaTime);     // 이동
 

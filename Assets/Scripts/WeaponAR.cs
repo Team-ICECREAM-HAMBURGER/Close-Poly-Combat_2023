@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -18,15 +17,20 @@ public class WeaponAR : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI textAmmo;
     [SerializeField] private GameObject magazineUIClone;
     [SerializeField] private Transform magazineUIParent;
+    [SerializeField] private AnimatorOverrideController playerHG;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private GameObject hg;
+
     private AudioSource audioSource;
     private Animator animator;
     private Camera mainCamera;
     private ImpactMemoryPool impactMemoryPool;
     private CasingMemoryPool casingMemoryPool;
+    private List<GameObject> magazineList;
     private float lastAttackTime;
     private bool isReload;
     private bool isAimSoundPlay;
-    private List<GameObject> magazineList;
+    
 
     [HideInInspector] public AmmoEvent onAmmoEvent = new AmmoEvent();
     [HideInInspector] public MagazineEvent onMagzineEvent = new MagazineEvent();
@@ -44,7 +48,6 @@ public class WeaponAR : MonoBehaviour {
         this.audioSource = gameObject.GetComponent<AudioSource>();
         this.isAimSoundPlay = false;
         this.magazineList = new List<GameObject>();
-
         this.onAmmoEvent.AddListener(UpdateAmmoHUD);
         this.onMagzineEvent.AddListener(UpdateMagazineHUD);
         
@@ -59,6 +62,25 @@ public class WeaponAR : MonoBehaviour {
         UpdateFire();
         UpdateAim();
         UpdateReload();
+        UpdateChangeWeapon();
+    }
+
+    private void OnEnable() {
+        UpdateMagazineHUD(this.weaponSetting.currentMagazine);
+        this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+    }
+
+    private void UpdateChangeWeapon() {
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {    // 보조 무기 선택
+            this.playerAnimator.runtimeAnimatorController = this.playerHG;
+            this.hg.SetActive(true);
+
+            for (int i = 0; i < this.magazineList.Count; ++i) { // 다 끄기
+                this.magazineList[i].SetActive(false);
+            }
+
+            gameObject.SetActive(false);
+        }
     }
 
     private void UpdateFire() {
@@ -210,11 +232,8 @@ public class WeaponAR : MonoBehaviour {
     private void SetupMagazine() {
         for (int i = 0; i < this.weaponSetting.maxMagazine; ++i) {  // 탄창 UI 아이콘 프리팹 생성
             GameObject clone = Instantiate(this.magazineUIClone);
-            
             clone.transform.SetParent(this.magazineUIParent);
-            
             clone.gameObject.SetActive(false);
-
             this.magazineList.Add(clone);
         }
 
