@@ -14,9 +14,11 @@ public class Movement : MonoBehaviour {
     public void UpdateMovement(float horizontal, float vertical, float moveSpeed) {
         this.moveDir = (vertical * this.orientation.forward + horizontal * this.orientation.right); // 이동 방향
         this.moveForce = new Vector3(this.moveDir.x * moveSpeed, this.moveDir.y, this.moveDir.z * moveSpeed); // 이동 힘
-
+        
+        if (!this.characterController.isGrounded) {
+            this.moveForce.y += this.gravity * Time.deltaTime;
+        }
 
         this.characterController.Move(this.moveForce * Time.deltaTime);     // 이동
-
     }
 }

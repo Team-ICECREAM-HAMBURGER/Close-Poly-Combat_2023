@@ -35,6 +35,8 @@ public class GameSceneManager : MonoBehaviour {
     private void OnResume() {
         Time.timeScale = 1;
         this.isPause = false;
+        Cursor.visible = false;     // 마우스 커서 숨김
+        Cursor.lockState = CursorLockMode.Locked;
         this.Panel_GamePause.SetActive(false);
     }
 
