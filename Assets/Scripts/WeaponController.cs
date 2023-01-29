@@ -218,6 +218,6 @@ public abstract class WeaponController : MonoBehaviour {
     }
 
 
-    public abstract void UpdateChangeWeapon();
+    public abstract IEnumerator UpdateChangeWeapon();
 
 }

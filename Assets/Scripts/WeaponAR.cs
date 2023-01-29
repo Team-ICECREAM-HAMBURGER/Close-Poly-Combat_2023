@@ -17,15 +17,19 @@ public class WeaponAR : WeaponController {
         base.UpdateFire();
         base.UpdateAim();
         base.UpdateReload();
-        UpdateChangeWeapon();
+        StartCoroutine(UpdateChangeWeapon());
     }
 
     private void OnEnable() {
         base.OnMagHUD();
     }
 
-    public override void UpdateChangeWeapon() {
+    public override IEnumerator UpdateChangeWeapon() {
         if (Input.GetKeyDown(KeyCode.Alpha2) && !this.isReload) {    // 보조 무기 선택
+            PlayerAnimatorController.instance.animator.SetTrigger("Holster_HG");
+
+            yield return new WaitForSeconds(0.5f);
+
             this.playerAnimator.runtimeAnimatorController = this.playerHG;
             this.nextWeapon.SetActive(true);
 

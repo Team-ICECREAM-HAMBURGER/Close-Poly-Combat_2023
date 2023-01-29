@@ -17,7 +17,7 @@ public class WeaponHG : WeaponController {
         base.UpdateFire();
         UpdateAim();
         base.UpdateReload();
-        UpdateChangeWeapon();
+        StartCoroutine(UpdateChangeWeapon());
     }
 
     private void OnEnable() {
@@ -25,11 +25,16 @@ public class WeaponHG : WeaponController {
         this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
     }
 
-    public override void UpdateChangeWeapon() {
+    public override IEnumerator UpdateChangeWeapon() {
         if (Input.GetKeyDown(KeyCode.Alpha1) && !this.isReload) {    // 주무기 선택
+            PlayerAnimatorController.instance.animator.SetTrigger("Holster_AR");
+
+            yield return new WaitForSeconds(0.5f);
+
             this.playerAnimator.runtimeAnimatorController = this.playerAR;
             this.nextWeapon.SetActive(true);
-            
+
+
             for (int i = 0; i < this.magazineList.Count; ++i) { // 다 끄기
                 this.magazineList[i].SetActive(false);
             }
