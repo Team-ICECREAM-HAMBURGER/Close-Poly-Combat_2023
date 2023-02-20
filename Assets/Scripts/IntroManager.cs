@@ -19,7 +19,7 @@ public class IntroManager : MonoBehaviour {
     }
 
     private void OnPlay() {
-        SceneManager.LoadScene("SampleScene");
+        SceneLoader.instance.LoadScene("SampleScene");
     }
 
     private void OnExit() {
