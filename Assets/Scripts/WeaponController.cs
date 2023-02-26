@@ -8,6 +8,7 @@ public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
 [System.Serializable]
 public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }
 public abstract class WeaponController : MonoBehaviour {
+    public float spreadRange;
     public WeaponSetting weaponSetting;
     public ParticleSystem muzzleFlash;
     public Transform bulletSpawnPoint;
@@ -182,6 +183,11 @@ public abstract class WeaponController : MonoBehaviour {
         else {
             targetPoint = ray.origin + ray.direction * this.weaponSetting.attackDistance;   // hit이 null일 경우, Ray를 무기 사정거리까지 쭉 발사
         }
+
+        targetPoint.x = hit.point.x + Random.Range(-this.spreadRange, spreadRange);
+        targetPoint.y = hit.point.y + Random.Range(-this.spreadRange, spreadRange);
+
+        Debug.Log(targetPoint);
 
         Vector3 attackDirection = (targetPoint - this.bulletSpawnPoint.position).normalized;    // (화면 정중앙 - 총구 위치).일반화
 

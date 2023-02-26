@@ -19161,6 +19161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a34574c2fc9429385f40c5db0f30c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spreadRange: 0.1
   weaponSetting:
     isAuto: 0
     isSemi: 1
@@ -28415,6 +28416,7 @@ MonoBehaviour:
   audios:
   - {fileID: 8300000, guid: 74abbbf1b1724e34b894191db38e10a0, type: 3}
   - {fileID: 8300000, guid: d2add02f58e61e640aba3ae9110591cb, type: 3}
+  moveFreeze: 0
   isRun: 0
 --- !u!114 &5589111982339302960
 MonoBehaviour:
@@ -31163,6 +31165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b94fb96ca08b114eb23cfb48a9cb924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spreadRange: 0.5
   weaponSetting:
     isAuto: 1
     isSemi: 0
