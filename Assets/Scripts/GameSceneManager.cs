@@ -20,7 +20,6 @@ public class GameSceneManager : MonoBehaviour {
         Init();
     }
 
-
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (this.isPause) {
@@ -38,6 +37,7 @@ public class GameSceneManager : MonoBehaviour {
         Cursor.visible = false;     // 마우스 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
         this.Panel_GamePause.SetActive(false);
+        PlayerController.instance.PlayerFreeze(false);
     }
 
     private void OnPause() {
@@ -46,6 +46,7 @@ public class GameSceneManager : MonoBehaviour {
         Cursor.visible = true;     // 마우스 커서 숨김 해제
         Cursor.lockState = CursorLockMode.None;
         this.Panel_GamePause.SetActive(true);
+        PlayerController.instance.PlayerFreeze(true);
     }
 
     private void OnRestart() {

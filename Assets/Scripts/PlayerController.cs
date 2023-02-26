@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
     private float horizontal;
     private float vertical;
     private float run;
+    private float _rotateSpeedX;
+    private float _rotateSpeedY;
     private bool isRunSoundPlay;
     private bool isWalkSoundPlay;
     [HideInInspector] public bool isRun;
@@ -41,6 +43,8 @@ public class PlayerController : MonoBehaviour {
         this.playerTilt = gameObject.GetComponent<PlayerTilt>();
         this.playerAnimatorController = gameObject.GetComponent<PlayerAnimatorController>();
         this.audioSource = gameObject.GetComponent<AudioSource>();
+        this._rotateSpeedX = this.rotateSpeedX;
+        this._rotateSpeedY = this.rotateSpeedY;
     }
 
     private void Awake() {
@@ -99,7 +103,18 @@ public class PlayerController : MonoBehaviour {
 
     // TODO: 플레이어 좌/우 기울이기
 
-
+    
+    // 플레이어 일시정지
+    public void PlayerFreeze(bool isFreeze) {
+        if (isFreeze) {
+            this.rotateSpeedX = 0;
+            this.rotateSpeedY = 0;
+        }
+        else if (!isFreeze) {
+            this.rotateSpeedX = _rotateSpeedX;
+            this.rotateSpeedY = _rotateSpeedY;
+        }
+    }
 
     
 }
