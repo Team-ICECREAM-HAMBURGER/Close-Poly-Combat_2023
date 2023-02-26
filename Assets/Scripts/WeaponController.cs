@@ -81,6 +81,10 @@ public abstract class WeaponController : MonoBehaviour {
     }
 
     public void UpdateFire() {
+        if (PlayerController.instance.moveFreeze == 0) {
+            return;
+        }
+
         if (this.weaponSetting.isAuto) {
             if (Input.GetMouseButton(0)) {    // 조정간 자동
                 if (this.isReload) {    // 재장전 중에는 사격 불가

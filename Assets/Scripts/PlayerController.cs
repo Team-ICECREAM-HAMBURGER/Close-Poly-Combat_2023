@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour {
     private float _rotateSpeedY;
     private bool isRunSoundPlay;
     private bool isWalkSoundPlay;
+    [HideInInspector] public float moveFreeze;
     [HideInInspector] public bool isRun;
 
 
@@ -66,6 +67,10 @@ public class PlayerController : MonoBehaviour {
 
     // 플레이어 이동
     private void UpdateMovement() {
+        if (this.moveFreeze == 0) {
+            return;
+        }
+
         this.horizontal = Input.GetAxisRaw("Horizontal");
         this.vertical = Input.GetAxisRaw("Vertical");
         this.run = Input.GetAxisRaw("Run"); // Left Shift 키 입력
@@ -109,10 +114,12 @@ public class PlayerController : MonoBehaviour {
         if (isFreeze) {
             this.rotateSpeedX = 0;
             this.rotateSpeedY = 0;
+            this.moveFreeze = 0;
         }
         else if (!isFreeze) {
             this.rotateSpeedX = _rotateSpeedX;
             this.rotateSpeedY = _rotateSpeedY;
+            this.moveFreeze = 1;
         }
     }
 

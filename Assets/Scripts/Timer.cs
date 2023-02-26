@@ -30,11 +30,10 @@ public class Timer : MonoBehaviour {
         Init();
     }
 
-    private void OnEnable() {
+    public void TimerOn() {
         this.startTime = Time.time;
-        StartCoroutine(OnTimer());    
+        StartCoroutine(OnTimer());
     }
-
 
     private IEnumerator OnTimer() {
         while(this.targetCount > 0) {
