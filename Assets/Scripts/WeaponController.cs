@@ -16,6 +16,7 @@ public abstract class WeaponController : MonoBehaviour {
     public Transform casingSpawnPoint;
     public TextMeshProUGUI textAmmo;
     public GameObject magazineUIClone;
+    public GameObject crosshairUI;
     public Transform magazineUIParent;
     public AnimatorOverrideController playerHG;
     public AnimatorOverrideController playerAR;
@@ -179,15 +180,16 @@ public abstract class WeaponController : MonoBehaviour {
         
         if (Physics.Raycast(ray, out hit, this.weaponSetting.attackDistance)) {     // 무기 사정거리만큼 Ray 발사 (화면 정중앙)
             targetPoint = hit.point;
+            targetPoint.x = hit.point.x + Random.Range(-this.spreadRange, spreadRange);
+            targetPoint.y = hit.point.y + Random.Range(-this.spreadRange, spreadRange);
         }
         else {
             targetPoint = ray.origin + ray.direction * this.weaponSetting.attackDistance;   // hit이 null일 경우, Ray를 무기 사정거리까지 쭉 발사
         }
 
-        targetPoint.x = hit.point.x + Random.Range(-this.spreadRange, spreadRange);
-        targetPoint.y = hit.point.y + Random.Range(-this.spreadRange, spreadRange);
 
-        Debug.Log(targetPoint);
+
+        //Debug.Log(targetPoint);
 
         Vector3 attackDirection = (targetPoint - this.bulletSpawnPoint.position).normalized;    // (화면 정중앙 - 총구 위치).일반화
 
@@ -207,10 +209,12 @@ public abstract class WeaponController : MonoBehaviour {
                 AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[0]);  // Aim In
             }
 
+            this.crosshairUI.SetActive(false);
             PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
         }
         else if (Input.GetMouseButtonUp(1)) {
             this.isAimSoundPlay = false;
+            this.crosshairUI.SetActive(true);
             PlayerAnimatorController.instance.IsAim = false;
         }
 
