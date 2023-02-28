@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Animations.Rigging;
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
@@ -32,6 +33,7 @@ public abstract class WeaponController : MonoBehaviour {
     public float reloadTime;
     public bool isReload;
     public bool isAimSoundPlay;
+    public TwoBoneIKConstraint ikHandL;
 
     [HideInInspector] public AmmoEvent onAmmoEvent = new AmmoEvent();
     [HideInInspector] public MagazineEvent onMagzineEvent = new MagazineEvent();
@@ -154,13 +156,15 @@ public abstract class WeaponController : MonoBehaviour {
     }
 
     public IEnumerator OnReload() {
+        this.ikHandL.weight = 0;
         this.isReload = true;
         PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
         this.animator.SetTrigger("Reloading");
         AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[2]);
             
         yield return new WaitForSeconds(this.reloadTime);
-            
+        
+        this.ikHandL.weight = 1;
         this.isReload = false;
         PlayerAnimatorController.instance.IsReload = false;
         this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
