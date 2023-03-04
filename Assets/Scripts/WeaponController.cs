@@ -4,88 +4,95 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Animations.Rigging;
 
-[System.Serializable]
-public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
-[System.Serializable]
-public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }
+[System.Serializable] public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
+[System.Serializable] public class MagazineEvent : UnityEngine.Events.UnityEvent<int> { }
 public abstract class WeaponController : MonoBehaviour {
-    public float spreadRange;
     public WeaponSetting weaponSetting;
-    public ParticleSystem muzzleFlash;
-    public Transform bulletSpawnPoint;
-    public AudioClip[] audios;
-    public Transform casingSpawnPoint;
-    public TextMeshProUGUI textAmmo;
-    public GameObject magazineUIClone;
-    public GameObject crosshairUI;
-    public Transform magazineUIParent;
-    public AnimatorOverrideController playerHG;
-    public AnimatorOverrideController playerAR;
-    public Animator playerAnimator;
-    public GameObject nextWeapon;
-    public AudioSource audioSource;
-    public Animator animator;
-    public Camera mainCamera;
-    public ImpactMemoryPool impactMemoryPool;
-    public CasingMemoryPool casingMemoryPool;
-    public List<GameObject> magazineList;
-    public float lastAttackTime;
-    public float reloadTime;
-    public bool isReload;
-    public bool isAimSoundPlay;
-    public TwoBoneIKConstraint ikHandL;
 
-    [HideInInspector] public AmmoEvent onAmmoEvent = new AmmoEvent();
-    [HideInInspector] public MagazineEvent onMagzineEvent = new MagazineEvent();
+    [Header("FX")]
+    public ParticleSystem muzzleFlash;
+
+    [Space(10f)]
+
+    [Header("Weapon Socket")]
+    public Transform bulletSpawnPoint;
+    public Transform casingSpawnPoint;
+
+    [Space(10f)]
+
+    [Header("Audio")]
+    public AudioClip audioAimIn;
+    public AudioClip audioFire;
+    public AudioClip audioReload;
+
+    [Space(10f)]
+
+    [Header("Animation")]
+    public TwoBoneIKConstraint ikHandL;
+    public Transform refIKHandL;
+
+    private Camera mainCamera;
+    private Animator weaponAnimator;
+        public Animator WeaponAnimator {
+            get {
+                return this.weaponAnimator;
+            }
+            set {
+                this.weaponAnimator = value;
+            }
+        }
+    private AudioSource audioSource;
+        public AudioSource AudioSource {
+            get {
+                return this.audioSource;
+            }
+            set {
+                this.audioSource = value;
+            }
+        }
+    private ImpactMemoryPool impactMemoryPool;
+    private CasingMemoryPool casingMemoryPool;
+    private float reloadTime;
+        public float ReloadTime {
+            get {
+                return this.reloadTime;
+            }
+            set {
+                this.reloadTime = value;
+            }
+        }
+    private bool isReload;
+        public bool IsReload {
+            get {
+                return this.isReload;
+            }
+            set {
+                this.isReload = value;
+            }
+        }
+    private bool isAimSoundPlay;
+    private float lastAttackTime;
 
 
     public void Init() {
         this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
         this.weaponSetting.currentMagazine = this.weaponSetting.maxMagazine;
+
         this.lastAttackTime = 0;
-        this.weaponSetting.weaponType = WeaponType.AR;
-        this.animator = gameObject.GetComponent<Animator>();
+        this.isAimSoundPlay = false;
+
         this.mainCamera = Camera.main;
+        this.audioSource = gameObject.GetComponent<AudioSource>();
+        this.weaponAnimator = gameObject.GetComponent<Animator>();
         this.impactMemoryPool = gameObject.GetComponent<ImpactMemoryPool>();
         this.casingMemoryPool = gameObject.GetComponent<CasingMemoryPool>();
-        this.audioSource = gameObject.GetComponent<AudioSource>();
-        this.isAimSoundPlay = false;
-        this.magazineList = new List<GameObject>();
-        this.onAmmoEvent.AddListener(UpdateAmmoHUD);
-        this.onMagzineEvent.AddListener(UpdateMagazineHUD);
-        
-        SetupMagazine();
-    }
 
-    public void UpdateAmmoHUD(int currentAmmo, int maxAmmo) {
-        this.textAmmo.text = $"{currentAmmo}/{maxAmmo}";
-    }
-
-    public void UpdateMagazineHUD(int currentMagazine) {
-        for (int i = 0; i < this.magazineList.Count; ++i) { // 다 끄기
-            this.magazineList[i].SetActive(false);
-        }
-
-        for (int i = 0; i < currentMagazine; ++i) { // 현재 탄창 수만큼 켜기 (Update)
-            this.magazineList[i].SetActive(true);
-        }
-    }
-
-    public void SetupMagazine() {
-        for (int i = 0; i < this.weaponSetting.maxMagazine; ++i) {  // 탄창 UI 아이콘 프리팹 생성
-            GameObject clone = Instantiate(this.magazineUIClone);
-            clone.transform.SetParent(this.magazineUIParent);
-            clone.gameObject.SetActive(false);
-            this.magazineList.Add(clone);
-        }
-
-        for (int i = 0; i < this.weaponSetting.currentMagazine; ++i) {  // 아이콘 활성화 (초기화)
-            this.magazineList[i].SetActive(true);
-        }
+        WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);
+        WeaponUIController.instance.SetupMagazine(this.weaponSetting.currentMagazine, this.weaponSetting.maxMagazine);
     }
 
     public void UpdateFire() {
-        if (PlayerController.instance.moveFreeze == 0) {
+        if (PlayerController.instance.MoveFreeze) {
             return;
         }
 
@@ -95,7 +102,7 @@ public abstract class WeaponController : MonoBehaviour {
                     return;
                 }
 
-                if (PlayerController.instance.isRun) {  // 달리기 도중에는 사격 불가
+                if (PlayerController.instance.IsRun) {  // 달리기 도중에는 사격 불가
                     return;
                 }
 
@@ -112,7 +119,7 @@ public abstract class WeaponController : MonoBehaviour {
                     return;
                 }
 
-                if (PlayerController.instance.isRun) {  // 달리기 도중에는 사격 불가
+                if (PlayerController.instance.IsRun) {  // 달리기 도중에는 사격 불가
                     return;
                 }
 
@@ -127,7 +134,7 @@ public abstract class WeaponController : MonoBehaviour {
 
     public void UpdateReload() {
         if (Input.GetKeyDown(KeyCode.R) && this.weaponSetting.currentAmmo < this.weaponSetting.maxAmmo && this.weaponSetting.currentMagazine > 0) {
-            if (PlayerController.instance.isRun) {  // 달리기 도중에는 재장전 불가
+            if (PlayerController.instance.IsRun) {  // 달리기 도중에는 재장전 불가
                 return;
             }
 
@@ -143,11 +150,11 @@ public abstract class WeaponController : MonoBehaviour {
             this.lastAttackTime = Time.time;
             this.weaponSetting.currentAmmo -= 1;
 
-            this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+            WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
             
             this.muzzleFlash.Play();
             PlayerAnimatorController.instance.animator.Play("Fire", 2, 0);  // Animation(Fire) Play
-            AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[1]);
+            AudioController.instance.PlaySoundOneShot(this.audioSource, this.audioFire);
             TwoStepRayCast();
             this.casingMemoryPool.SpawnCasing(this.casingSpawnPoint.position, this.casingSpawnPoint.right);
         }
@@ -155,24 +162,20 @@ public abstract class WeaponController : MonoBehaviour {
         yield return null; 
     }
 
-    public IEnumerator OnReload() {
-        this.ikHandL.weight = 0;
-        this.isReload = true;
+    public virtual IEnumerator OnReload() {
+        this.IsReload = true;
         PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
-        this.animator.SetTrigger("Reloading");
-        AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[2]);
+        this.WeaponAnimator.SetTrigger("Reloading");
+        AudioController.instance.PlaySoundOneShot(this.AudioSource, this.audioReload);
             
-        yield return new WaitForSeconds(this.reloadTime);
-        
-        this.ikHandL.weight = 1;
-        this.isReload = false;
+        yield return new WaitForSeconds(this.ReloadTime);
+
+        this.IsReload = false;
         PlayerAnimatorController.instance.IsReload = false;
         this.weaponSetting.currentAmmo = this.weaponSetting.maxAmmo;
         this.weaponSetting.currentMagazine -= 1;
-        this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
-        this.onMagzineEvent.Invoke(this.weaponSetting.currentMagazine);     // 탄창 수 UI Invoke
-       
-        yield return null;
+        WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+        WeaponUIController.instance.onMagzineEvent.Invoke(this.weaponSetting.currentMagazine);     // 탄창 수 UI Invoke
     }
 
     public void TwoStepRayCast() {
@@ -184,16 +187,12 @@ public abstract class WeaponController : MonoBehaviour {
         
         if (Physics.Raycast(ray, out hit, this.weaponSetting.attackDistance)) {     // 무기 사정거리만큼 Ray 발사 (화면 정중앙)
             targetPoint = hit.point;
-            targetPoint.x = hit.point.x + Random.Range(-this.spreadRange, spreadRange);
-            targetPoint.y = hit.point.y + Random.Range(-this.spreadRange, spreadRange);
+            targetPoint.x = hit.point.x + Random.Range(-this.weaponSetting.spreadRange, this.weaponSetting.spreadRange);
+            targetPoint.y = hit.point.y + Random.Range(-this.weaponSetting.spreadRange, this.weaponSetting.spreadRange);
         }
         else {
             targetPoint = ray.origin + ray.direction * this.weaponSetting.attackDistance;   // hit이 null일 경우, Ray를 무기 사정거리까지 쭉 발사
         }
-
-
-
-        //Debug.Log(targetPoint);
 
         Vector3 attackDirection = (targetPoint - this.bulletSpawnPoint.position).normalized;    // (화면 정중앙 - 총구 위치).일반화
 
@@ -207,18 +206,16 @@ public abstract class WeaponController : MonoBehaviour {
     }
 
     public void UpdateAim() {
-        if (Input.GetMouseButton(1) && !PlayerController.instance.isRun) {  // 마우스 우클릭 (유지)
+        if (Input.GetMouseButton(1) && !PlayerController.instance.IsRun) {  // 마우스 우클릭 (유지)
             if (!this.isAimSoundPlay) {
                 this.isAimSoundPlay = true;
-                AudioController.instance.PlaySoundOneShot(this.audioSource, this.audios[0]);  // Aim In
+                AudioController.instance.PlaySoundOneShot(this.audioSource, this.audioAimIn);  // Aim In
             }
 
-            this.crosshairUI.SetActive(false);
             PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
         }
         else if (Input.GetMouseButtonUp(1)) {
             this.isAimSoundPlay = false;
-            this.crosshairUI.SetActive(true);
             PlayerAnimatorController.instance.IsAim = false;
         }
 
@@ -229,13 +226,4 @@ public abstract class WeaponController : MonoBehaviour {
             PlayerAnimatorController.instance.Aiming = 0;   // Blend Tree
         }
     }
-
-    public void OnMagHUD() {
-        UpdateMagazineHUD(this.weaponSetting.currentMagazine);
-        this.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
-    }
-
-
-    public abstract IEnumerator UpdateChangeWeapon();
-
 }

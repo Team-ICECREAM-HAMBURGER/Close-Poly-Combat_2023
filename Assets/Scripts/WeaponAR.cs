@@ -6,10 +6,12 @@ using UnityEngine;
 public class WeaponAR : WeaponController {
     private void Init() {
         base.Init();
-        base.reloadTime = 3.18f;
+        base.ReloadTime = 3.18f;
+        base.ikHandL.weight = 1;
+        base.ikHandL.data.target = base.refIKHandL;
     }
 
-    private void Awake() {
+    private void OnEnable() {
         Init();
     }
 
@@ -17,27 +19,15 @@ public class WeaponAR : WeaponController {
         base.UpdateFire();
         base.UpdateAim();
         base.UpdateReload();
-        StartCoroutine(UpdateChangeWeapon());
     }
 
-    private void OnEnable() {
-        base.OnMagHUD();
-    }
+    public override IEnumerator OnReload() {
+        base.ikHandL.weight = 0;
 
-    public override IEnumerator UpdateChangeWeapon() {
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !this.isReload) {    // 보조 무기 선택
-            PlayerAnimatorController.instance.animator.SetTrigger("Holster_HG");
+        yield return StartCoroutine(base.OnReload());
 
-            yield return new WaitForSeconds(0.5f);
+        base.ikHandL.weight = 1;
 
-            this.playerAnimator.runtimeAnimatorController = this.playerHG;
-            this.nextWeapon.SetActive(true);
-
-            for (int i = 0; i < this.magazineList.Count; ++i) { // 다 끄기
-                this.magazineList[i].SetActive(false);
-            }
-
-            gameObject.SetActive(false);
-        }
+        yield return null;
     }
 }

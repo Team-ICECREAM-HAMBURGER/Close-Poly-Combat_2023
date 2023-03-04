@@ -43,12 +43,32 @@ public class PlayerAnimatorController : MonoBehaviour {
         Init();
     }
 
+    // 플레이어 이동 애니메이션
     public void MovementAnimation(float horizontal, float vertical, bool isRun = false) {
-        if (horizontal != 0 || vertical != 0) {   // 이동 중일 때
+        if (horizontal != 0 || vertical != 0) {   // 이동 중일 때,
             this.MoveSpeed = isRun == true ? 1 : 0.5f;
         }
-        else {  // 정지 상태일 때
+        else {  // 정지 상태일 때,
             this.MoveSpeed = 0;
         }
+    }
+
+    // 플레이어 달리기 상태 값 설정
+    public void RunAnimationStatus() {
+        this.IsRun = true;
+        this.IsWalk = false;
+        this.IsAim = false;
+    }
+
+    // 플레이어 걷기 상태 값 설정
+    public void WalkAnimationStatus() {
+        this.IsRun = false;
+        this.IsWalk = true;
+    }
+
+    // 플레이어 대기 상태 값 설정
+    public void IdleAnimationStatus() {
+        this.IsRun = false;
+        this.IsWalk = false;
     }
 }
