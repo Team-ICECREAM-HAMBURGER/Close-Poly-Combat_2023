@@ -6,40 +6,47 @@ public class WeaponSG : WeaponController {
     private void Init() {
         base.Init();
         base.ReloadTime = 3.18f;
-        base.ikHandL.weight = 1;
-        base.ikHandL.data.target = base.refIKHandL;
+    }
+
+    private void Awake() {
+        Init();
     }
 
     private void OnEnable() {
-        Init();
+        base.ikHandL.weight = 1;
+        base.ikHandL.data.target = base.refIKHandL;
+        WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+        WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);
     }
 
     private void Update() {
         base.UpdateFire();
-        base.UpdateAim();
+        UpdateAim();
         base.UpdateReload();
     }
 
     public override IEnumerator OnReload() {
         base.ikHandL.weight = 0;
         
+        base.IsReload = true;
+        PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
+        base.WeaponAnimator.SetTrigger("Reloading");
+        
         while (base.weaponSetting.currentAmmo < base.weaponSetting.maxAmmo) {
-            base.IsReload = true;
-            PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
-            base.WeaponAnimator.SetTrigger("Reloading");
             AudioController.instance.PlaySoundOneShot(base.AudioSource, base.audioReload); // 탄창 수 UI Invoke
 
-            yield return new WaitForSeconds(1f);
-
+            yield return new WaitForSeconds(0.767f);
+            
             base.weaponSetting.currentAmmo += 1;
+            
             WeaponUIController.instance.onAmmoEvent.Invoke(base.weaponSetting.currentAmmo, base.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
-            WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);  
         }
 
         base.IsReload = false;
         PlayerAnimatorController.instance.IsReload = false;
         base.weaponSetting.currentAmmo = base.weaponSetting.maxAmmo;
         base.weaponSetting.currentMagazine -= 1;
+        WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);  
 
 
         base.ikHandL.weight = 1;
@@ -48,7 +55,15 @@ public class WeaponSG : WeaponController {
 
     }
 
-
+    private void UpdateAim() {
+        if (this.IsReload) {
+            PlayerAnimatorController.instance.IsAim = false;
+            PlayerAnimatorController.instance.Aiming = 0;
+        }
+        else {
+            base.UpdateAim();
+        }
+    }
 
 
 }

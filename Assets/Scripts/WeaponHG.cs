@@ -7,12 +7,17 @@ public class WeaponHG : WeaponController {
     private void Init() {
         base.Init();
         base.ReloadTime = 2.1f;
-        base.ikHandL.weight = 0;
-        base.ikHandL.data.target = base.refIKHandL;
+    }
+
+    private void Awake() {
+        Init();
     }
 
      private void OnEnable() {
-        Init();
+        base.ikHandL.weight = 0;
+        base.ikHandL.data.target = base.refIKHandL;    
+        WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+        WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);    
     }
 
     private void Update() {

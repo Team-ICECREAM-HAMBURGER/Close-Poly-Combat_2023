@@ -7,12 +7,17 @@ public class WeaponAR : WeaponController {
     private void Init() {
         base.Init();
         base.ReloadTime = 3.18f;
-        base.ikHandL.weight = 1;
-        base.ikHandL.data.target = base.refIKHandL;
+    }
+
+    private void Awake() {
+        Init();
     }
 
     private void OnEnable() {
-        Init();
+        base.ikHandL.weight = 1;
+        base.ikHandL.data.target = base.refIKHandL;
+        WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
+        WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);  
     }
 
     private void Update() {
@@ -26,8 +31,12 @@ public class WeaponAR : WeaponController {
 
         yield return StartCoroutine(base.OnReload());
 
-        base.ikHandL.weight = 1;
+        if(!PlayerAnimatorController.instance.IsAim) {
+            base.ikHandL.weight = 1;
+        }
 
         yield return null;
     }
+
+    
 }

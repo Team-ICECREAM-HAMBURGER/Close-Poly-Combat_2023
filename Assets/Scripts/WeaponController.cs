@@ -133,7 +133,7 @@ public abstract class WeaponController : MonoBehaviour {
     }
 
     public void UpdateReload() {
-        if (Input.GetKeyDown(KeyCode.R) && this.weaponSetting.currentAmmo < this.weaponSetting.maxAmmo && this.weaponSetting.currentMagazine > 0) {
+        if (Input.GetKeyDown(KeyCode.R) && this.weaponSetting.currentAmmo < this.weaponSetting.maxAmmo && this.weaponSetting.currentMagazine > 0 && !this.isReload) {
             if (PlayerController.instance.IsRun) {  // 달리기 도중에는 재장전 불가
                 return;
             }
@@ -207,6 +207,7 @@ public abstract class WeaponController : MonoBehaviour {
 
     public void UpdateAim() {
         if (Input.GetMouseButton(1) && !PlayerController.instance.IsRun) {  // 마우스 우클릭 (유지)
+            this.ikHandL.weight = 0;
             if (!this.isAimSoundPlay) {
                 this.isAimSoundPlay = true;
                 AudioController.instance.PlaySoundOneShot(this.audioSource, this.audioAimIn);  // Aim In
@@ -215,6 +216,7 @@ public abstract class WeaponController : MonoBehaviour {
             PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
         }
         else if (Input.GetMouseButtonUp(1)) {
+            this.ikHandL.weight = 1;
             this.isAimSoundPlay = false;
             PlayerAnimatorController.instance.IsAim = false;
         }
