@@ -17438,37 +17438,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1562486774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1562486775}
-  m_Layer: 9
-  m_Name: REF_IK_Hand_L_SG
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1562486775
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1562486774}
-  m_LocalRotation: {x: -0.18470848, y: 0.025804562, z: 0.83743644, w: -0.5137288}
-  m_LocalPosition: {x: -0.020563323, y: -0.036207706, z: 0.28924647}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2377089061234403954}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1609365412
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22949,37 +22918,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808531187}
   m_CullTransparentMesh: 1
---- !u!1 &1839409314
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1839409315}
-  m_Layer: 9
-  m_Name: REF_IK_Hand_L_AR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1839409315
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839409314}
-  m_LocalRotation: {x: -0.018403552, y: -0.79062444, z: 0.17200625, w: -0.587357}
-  m_LocalPosition: {x: -0.024649002, y: -0.0179926, z: 0.15373383}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6621038141684604799}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1856589137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28897,7 +28835,6 @@ Transform:
   m_Children:
   - {fileID: 7678368007806741054}
   - {fileID: 7678368007806741048}
-  - {fileID: 1562486775}
   m_Father: {fileID: 1305024638}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -28994,8 +28931,8 @@ MonoBehaviour:
   audioAimIn: {fileID: 8300000, guid: 72942014ab059294b9bf69eef4f3d93c, type: 3}
   audioFire: {fileID: 8300000, guid: a8a053acb9337b443a3903e2ab8654a2, type: 3}
   audioReload: {fileID: 8300000, guid: b3c791ca112081d4baf6292ba619688d, type: 3}
-  ikHandL: {fileID: 7934532926498806763}
-  refIKHandL: {fileID: 1562486775}
+  ikHandL: {fileID: 0}
+  refIKHandL: {fileID: 0}
 --- !u!82 &2377089061241292185
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30697,7 +30634,7 @@ MonoBehaviour:
   audioAimIn: {fileID: 8300000, guid: 72942014ab059294b9bf69eef4f3d93c, type: 3}
   audioFire: {fileID: 8300000, guid: eeb7e4fbcdd48bb48833c5965928a22d, type: 3}
   audioReload: {fileID: 8300000, guid: 13eaf8a47bc94254f88f958bd402bc7f, type: 3}
-  ikHandL: {fileID: 7934532926498806763}
+  ikHandL: {fileID: 0}
   refIKHandL: {fileID: 0}
 --- !u!82 &3194368430532161382
 AudioSource:
@@ -43608,7 +43545,6 @@ Transform:
   m_Children:
   - {fileID: 5637297155024769322}
   - {fileID: 6078896774983673648}
-  - {fileID: 1839409315}
   m_Father: {fileID: 1305024638}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43663,8 +43599,8 @@ MonoBehaviour:
   audioAimIn: {fileID: 8300000, guid: afe80d867ef6b8c4fa45b07f1f99533c, type: 3}
   audioFire: {fileID: 8300000, guid: cfb8a7c3184f21047bf50b23afdc5806, type: 3}
   audioReload: {fileID: 8300000, guid: 1fe5c2e1733f354428fe88c1a7cbafe4, type: 3}
-  ikHandL: {fileID: 7934532926498806763}
-  refIKHandL: {fileID: 1839409315}
+  ikHandL: {fileID: 0}
+  refIKHandL: {fileID: 0}
 --- !u!82 &6621038141693931675
 AudioSource:
   m_ObjectHideFlags: 0
@@ -51905,11 +51841,11 @@ MonoBehaviour:
     m_Root: {fileID: 785219321739202291}
     m_Mid: {fileID: 813172724840692232}
     m_Tip: {fileID: 4827590558131951152}
-    m_Target: {fileID: 1839409315}
+    m_Target: {fileID: 7934532926498806762}
     m_Hint: {fileID: 0}
     m_TargetPositionWeight: 1
-    m_TargetRotationWeight: 0
-    m_HintWeight: 0
+    m_TargetRotationWeight: 1
+    m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
 --- !u!4 &7936842157922116325

@@ -14,8 +14,6 @@ public class WeaponHG : WeaponController {
     }
 
      private void OnEnable() {
-        base.ikHandL.weight = 0;
-        base.ikHandL.data.target = base.refIKHandL;    
         WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
         WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);    
     }

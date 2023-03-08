@@ -207,7 +207,6 @@ public abstract class WeaponController : MonoBehaviour {
 
     public void UpdateAim() {
         if (Input.GetMouseButton(1) && !PlayerController.instance.IsRun) {  // 마우스 우클릭 (유지)
-            this.ikHandL.weight = 0;
             if (!this.isAimSoundPlay) {
                 this.isAimSoundPlay = true;
                 AudioController.instance.PlaySoundOneShot(this.audioSource, this.audioAimIn);  // Aim In
@@ -216,7 +215,6 @@ public abstract class WeaponController : MonoBehaviour {
             PlayerAnimatorController.instance.IsAim = true; // 정조준 모드 활성화
         }
         else if (Input.GetMouseButtonUp(1)) {
-            this.ikHandL.weight = 1;
             this.isAimSoundPlay = false;
             PlayerAnimatorController.instance.IsAim = false;
         }

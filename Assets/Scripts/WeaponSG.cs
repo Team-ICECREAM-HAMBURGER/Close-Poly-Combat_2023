@@ -13,8 +13,6 @@ public class WeaponSG : WeaponController {
     }
 
     private void OnEnable() {
-        base.ikHandL.weight = 1;
-        base.ikHandL.data.target = base.refIKHandL;
         WeaponUIController.instance.onAmmoEvent.Invoke(this.weaponSetting.currentAmmo, this.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
         WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);
     }
@@ -26,8 +24,6 @@ public class WeaponSG : WeaponController {
     }
 
     public override IEnumerator OnReload() {
-        base.ikHandL.weight = 0;
-        
         base.IsReload = true;
         PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
         base.WeaponAnimator.SetTrigger("Reloading");
@@ -48,11 +44,7 @@ public class WeaponSG : WeaponController {
         base.weaponSetting.currentMagazine -= 1;
         WeaponUIController.instance.onMagzineEvent.Invoke(base.weaponSetting.currentMagazine);  
 
-
-        base.ikHandL.weight = 1;
-
         yield return null;
-
     }
 
     private void UpdateAim() {
