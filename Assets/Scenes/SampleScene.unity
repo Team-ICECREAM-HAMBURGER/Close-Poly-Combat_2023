@@ -28931,8 +28931,9 @@ MonoBehaviour:
   audioAimIn: {fileID: 8300000, guid: 72942014ab059294b9bf69eef4f3d93c, type: 3}
   audioFire: {fileID: 8300000, guid: a8a053acb9337b443a3903e2ab8654a2, type: 3}
   audioReload: {fileID: 8300000, guid: b3c791ca112081d4baf6292ba619688d, type: 3}
-  ikHandL: {fileID: 0}
-  refIKHandL: {fileID: 0}
+  audioReloadBoltOpen: {fileID: 8300000, guid: 3c241cf7aa0c13d48920ab82fa2e2b22, type: 3}
+  audioReloadBoltClose: {fileID: 8300000, guid: b0f1cee92aff20047b4454a25ef05fb1,
+    type: 3}
 --- !u!82 &2377089061241292185
 AudioSource:
   m_ObjectHideFlags: 0
@@ -30634,8 +30635,6 @@ MonoBehaviour:
   audioAimIn: {fileID: 8300000, guid: 72942014ab059294b9bf69eef4f3d93c, type: 3}
   audioFire: {fileID: 8300000, guid: eeb7e4fbcdd48bb48833c5965928a22d, type: 3}
   audioReload: {fileID: 8300000, guid: 13eaf8a47bc94254f88f958bd402bc7f, type: 3}
-  ikHandL: {fileID: 0}
-  refIKHandL: {fileID: 0}
 --- !u!82 &3194368430532161382
 AudioSource:
   m_ObjectHideFlags: 0
@@ -43599,8 +43598,6 @@ MonoBehaviour:
   audioAimIn: {fileID: 8300000, guid: afe80d867ef6b8c4fa45b07f1f99533c, type: 3}
   audioFire: {fileID: 8300000, guid: cfb8a7c3184f21047bf50b23afdc5806, type: 3}
   audioReload: {fileID: 8300000, guid: 1fe5c2e1733f354428fe88c1a7cbafe4, type: 3}
-  ikHandL: {fileID: 0}
-  refIKHandL: {fileID: 0}
 --- !u!82 &6621038141693931675
 AudioSource:
   m_ObjectHideFlags: 0

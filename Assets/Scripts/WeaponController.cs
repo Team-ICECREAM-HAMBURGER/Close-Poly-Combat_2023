@@ -25,12 +25,6 @@ public abstract class WeaponController : MonoBehaviour {
     public AudioClip audioFire;
     public AudioClip audioReload;
 
-    [Space(10f)]
-
-    [Header("Animation")]
-    public TwoBoneIKConstraint ikHandL;
-    public Transform refIKHandL;
-
     private Camera mainCamera;
     private Animator weaponAnimator;
         public Animator WeaponAnimator {

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponSG : WeaponController {
+
+    [SerializeField] private AudioClip audioReloadBoltOpen;
+    [SerializeField] private AudioClip audioReloadBoltClose;
+
+
     private void Init() {
         base.Init();
         base.ReloadTime = 3.18f;
@@ -26,7 +31,7 @@ public class WeaponSG : WeaponController {
     public override IEnumerator OnReload() {
         base.IsReload = true;
         PlayerAnimatorController.instance.IsReload = true;   // Animation(Reload) Play
-        base.WeaponAnimator.SetTrigger("Reloading");
+        //base.WeaponAnimator.SetTrigger("Reloading");
         
         while (base.weaponSetting.currentAmmo < base.weaponSetting.maxAmmo) {
             AudioController.instance.PlaySoundOneShot(base.AudioSource, base.audioReload); // 탄창 수 UI Invoke
@@ -38,6 +43,12 @@ public class WeaponSG : WeaponController {
             WeaponUIController.instance.onAmmoEvent.Invoke(base.weaponSetting.currentAmmo, base.weaponSetting.maxAmmo);    // 탄 수 UI Invoke
         }
 
+        base.WeaponAnimator.SetTrigger("Bolt");
+        PlayerAnimatorController.instance.animator.SetTrigger("ReloadSG_Bolt");
+        AudioController.instance.PlaySoundOneShot(base.AudioSource, this.audioReloadBoltOpen);
+        yield return new WaitForSeconds(this.audioReloadBoltOpen.length);
+        AudioController.instance.PlaySoundOneShot(base.AudioSource, this.audioReloadBoltClose);
+        
         base.IsReload = false;
         PlayerAnimatorController.instance.IsReload = false;
         base.weaponSetting.currentAmmo = base.weaponSetting.maxAmmo;
