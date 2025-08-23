@@ -1,4 +1,4 @@
-# Close Poly Combat [2023]
+# \<Close Poly Combat> (2023)
 ![Close_Poly_Combat_Title](https://github.com/user-attachments/assets/be848815-3577-499e-9862-b865aa1696ac)
 > ***“최대한 빨리, 모든 타깃을 제거하세요.”***
 <br/>
